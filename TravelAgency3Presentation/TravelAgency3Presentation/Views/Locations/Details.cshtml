@@ -1,0 +1,129 @@
+﻿@model Location
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "/images/default-location.jpg" : Model.ImageUrl)"
+                 class="img-fluid rounded" alt="@Model.Name" style="max-height: 400px; width: 100%; object-fit: cover;">
+        </div>
+        <div class="col-md-6">
+            <h1>@Model.Name</h1>
+            <h4 class="text-muted">@Model.Country</h4>
+
+            <div class="mt-4">
+                <h5>About this destination</h5>
+                <p>@Model.Description</p>
+            </div>
+
+            <div class="mt-4">
+                <h5>Price</h5>
+                <p class="text-primary font-weight-bold">$@Model.PricePerNight per night</p>
+            </div>
+
+            <div class="mt-4">
+                <a asp-controller="Bookings" asp-action="Create" asp-route-locationId="@Model.Id" class="btn btn-success btn-lg">Book Now</a>
+                <a asp-controller="Reviews" asp-action="LocationReviews" asp-route-id="@Model.Id" class="btn btn-info btn-lg ml-2">View Reviews</a>
+            </div>
+
+            <div class="mt-4">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                <a asp-action="Index" class="btn btn-secondary ml-2">Back to List</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick booking form -->
+    <div class="card mt-5 mb-5">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Quick Availability Check</h4>
+        </div>
+        <div class="card-body">
+            <form id="availabilityForm">
+                <input type="hidden" id="locationId" value="@Model.Id" />
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="checkInDate">Check-in Date</label>
+                            <input type="date" id="checkInDate" class="form-control" required min="@DateTime.Now.ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="checkOutDate">Check-out Date</label>
+                            <input type="date" id="checkOutDate" class="form-control" required min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary btn-block">Check Availability</button>
+                    </div>
+                </div>
+            </form>
+
+            <div id="availabilityResult" class="mt-3" style="display: none;">
+                <!-- Results will be displayed here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#availabilityForm').submit(function(e) {
+                e.preventDefault();
+
+                const locationId = $('#locationId').val();
+                const checkIn = $('#checkInDate').val();
+                const checkOut = $('#checkOutDate').val();
+
+                // Validate dates
+                if(new Date(checkIn) >= new Date(checkOut)) {
+                    $('#availabilityResult').html('<div class="alert alert-danger">Check-out date must be after check-in date.</div>').show();
+                    return;
+                }
+
+                // Show loading indicator
+                $('#availabilityResult').html('<div class="text-center"><div class="spinner-border text-primary" role="status"></div><span class="ml-2">Checking availability...</span></div>').show();
+
+                // Make AJAX request
+                $.ajax({
+                    url: '@Url.Action("CheckAvailability", "Bookings")',
+                    type: 'GET',
+                    data: {
+                        locationId: locationId,
+                        checkIn: checkIn,
+                        checkOut: checkOut
+                    },
+                    success: function(response) {
+                        let html = '';
+
+                        if(response.isAvailable) {
+                            html = `
+                                <div class="alert alert-success">
+                                    <h5>Good news! This location is available for your selected dates.</h5>
+                                    <p>Total price: $${response.totalPrice.toFixed(2)}</p>
+                                    <a href="@Url.Action("Create", "Bookings")?locationId=${locationId}&checkInDate=${checkIn}&checkOutDate=${checkOut}" class="btn btn-success">Book Now</a>
+                                </div>
+                            `;
+                        } else {
+                            html = `
+                                <div class="alert alert-danger">
+                                    <h5>Sorry, this location is not available for your selected dates.</h5>
+                                    <p>Please try different dates or check our other destinations.</p>
+                                </div>
+                            `;
+                        }
+
+                        $('#availabilityResult').html(html);
+                    },
+                    error: function() {
+                        $('#availabilityResult').html('<div class="alert alert-danger">Error checking availability. Please try again.</div>');
+                    }
+                });
+            });
+        });
+    </script>
+}

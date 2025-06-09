@@ -1,0 +1,96 @@
+﻿@model TravelAgency3Presentation.Models.Booking
+
+@{
+    ViewData["Title"] = "Edit Booking";
+    var locations = ViewBag.Locations as IEnumerable<TravelAgency3Presentation.Models.Location>;
+    var statuses = Enum.GetValues(typeof(TravelAgency3Presentation.Models.Enums.BookingStatus)).Cast<TravelAgency3Presentation.Models.Enums.BookingStatus>();
+}
+
+<h1>Edit Booking</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-controller="Bookings" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedAt" />
+
+            <div class="form-group mb-3">
+                <label asp-for="LocationId" class="control-label"></label>
+                <select asp-for="LocationId" class="form-control" asp-items="@(new SelectList(locations, "Id", "Name"))"></select>
+                <span asp-validation-for="LocationId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CustomerName" class="control-label"></label>
+                <input asp-for="CustomerName" class="form-control" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CheckInDate" class="control-label"></label>
+                <input asp-for="CheckInDate" class="form-control" type="date" />
+                <span asp-validation-for="CheckInDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CheckOutDate" class="control-label"></label>
+                <input asp-for="CheckOutDate" class="form-control" type="date" />
+                <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="NumberOfGuests" class="control-label"></label>
+                <input asp-for="NumberOfGuests" class="form-control" min="1" max="10" />
+                <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="TotalPrice" class="control-label"></label>
+                <input asp-for="TotalPrice" class="form-control" />
+                <span asp-validation-for="TotalPrice" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control" asp-items="@(new SelectList(statuses))"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            // Calculate total price when dates or location changes
+            function calculateTotalPrice() {
+                const locationId = $('#LocationId').val();
+                const checkIn = new Date($('#CheckInDate').val());
+                const checkOut = new Date($('#CheckOutDate').val());
+
+                if (locationId && !isNaN(checkIn) && !isNaN(checkOut)) {
+                    const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+
+                    if (nights > 0) {
+                        $.getJSON(`/api/Locations/${locationId}`, function(location) {
+                            const totalPrice = nights * location.pricePerNight;
+                            $('#TotalPrice').val(totalPrice.toFixed(2));
+                        });
+                    }
+                }
+            }
+
+            $('#LocationId, #CheckInDate, #CheckOutDate').change(calculateTotalPrice);
+        });
+    </script>
+}

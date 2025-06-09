@@ -1,0 +1,73 @@
+﻿@model TravelAgency3Presentation.Models.Home
+@{
+    ViewData["Title"] = "Wanderlust Travel";
+}
+<div class="jumbotron text-center bg-light">
+    <h1 class="display-4">Discover Your Next Adventure</h1>
+    <p class="lead">Explore our hand-picked destinations and create memories that last a lifetime.</p>
+    <hr class="my-4">
+    <p>Find the perfect location for your dream vacation.</p>
+    <a class="btn btn-primary btn-lg" asp-controller="Locations" asp-action="Index">Browse Destinations</a>
+</div>
+<div class="container">
+    <h2 class="text-center mb-4">Popular Destinations</h2>
+
+    <div class="row">
+        @foreach (var location in Model.FeaturedLocations)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@(string.IsNullOrEmpty(location.ImageUrl) ? "/images/default-location.jpg" : location.ImageUrl)"
+                         class="card-img-top" alt="@location.Name" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">@location.Name</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@location.Country</h6>
+                        <p class="card-text">@(location.Description?.Length > 100 ? location.Description.Substring(0, 97) + "..." : location.Description)</p>
+                        <p class="card-text text-primary">From $@location.PricePerNight per night</p>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <div class="d-flex justify-content-between">
+                            <a asp-controller="Locations" asp-action="Details" asp-route-id="@location.Id" class="btn btn-info">Details</a>
+                            <a asp-controller="Bookings" asp-action="Create" asp-route-locationId="@location.Id" class="btn btn-success">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="text-center mt-4 mb-5">
+        <a asp-controller="Locations" asp-action="Index" class="btn btn-outline-primary">View All Destinations</a>
+    </div>
+    <hr class="my-5">
+
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-map-marker-alt fa-3x text-primary mb-3"></i>
+                    <h4 class="card-title">Top Destinations</h4>
+                    <p class="card-text">Explore our curated list of destinations from around the world.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-concierge-bell fa-3x text-primary mb-3"></i>
+                    <h4 class="card-title">Premium Service</h4>
+                    <p class="card-text">Enjoy personalized service and support throughout your journey.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-tag fa-3x text-primary mb-3"></i>
+                    <h4 class="card-title">Best Prices</h4>
+                    <p class="card-text">We guarantee the best rates for your travel accommodation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

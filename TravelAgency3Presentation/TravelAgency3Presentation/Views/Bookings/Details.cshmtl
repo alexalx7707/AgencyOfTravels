@@ -1,0 +1,56 @@
+﻿@model TravelAgency.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Details";
+}
+
+<h1>Booking Details</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>Booking #@Model.Id</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Location</dt>
+                    <dd class="col-sm-8">@ViewBag.LocationName</dd>
+                    
+                    <dt class="col-sm-4">User</dt>
+                    <dd class="col-sm-8">@Model.UserName</dd>
+                    
+                    <dt class="col-sm-4">Check-in Date</dt>
+                    <dd class="col-sm-8">@Model.CheckInDate.ToString("MMM dd, yyyy")</dd>
+                    
+                    <dt class="col-sm-4">Check-out Date</dt>
+                    <dd class="col-sm-8">@Model.CheckOutDate.ToString("MMM dd, yyyy")</dd>
+                    
+                    <dt class="col-sm-4">Number of Nights</dt>
+                    <dd class="col-sm-8">@((Model.CheckOutDate - Model.CheckInDate).Days)</dd>
+                    
+                    <dt class="col-sm-4">Guest Count</dt>
+                    <dd class="col-sm-8">@Model.GuestCount</dd>
+                    
+                    <dt class="col-sm-4">Total Price</dt>
+                    <dd class="col-sm-8">$@Model.TotalPrice</dd>
+                    
+                    <dt class="col-sm-4">Status</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge @(Model.Status == TravelAgency.Models.Enums.BookingStatus.Confirmed ? "bg-success" : 
+                                            Model.Status == TravelAgency.Models.Enums.BookingStatus.Pending ? "bg-warning" : "bg-danger")">
+                            @Model.Status
+                        </span>
+                    </dd>
+                    
+                    <dt class="col-sm-4">Created At</dt>
+                    <dd class="col-sm-8">@Model.CreatedAt.ToString("MMM dd, yyyy HH:mm")</dd>
+                </dl>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>

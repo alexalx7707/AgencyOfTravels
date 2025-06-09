@@ -1,0 +1,152 @@
+﻿@{
+    ViewData["Title"] = "About Us";
+}
+
+<div class="container">
+    <h1 class="my-4">About Wanderlust Travel</h1>
+
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <img src="/images/about-us.jpg" alt="About Wanderlust Travel" class="img-fluid rounded">
+        </div>
+        <div class="col-md-6">
+            <h3>Our Story</h3>
+            <p>
+                Founded in 2010, Wanderlust Travel has been a trusted partner for travelers seeking exceptional experiences around the globe.
+                What started as a small team of passionate travelers has grown into a comprehensive travel agency specializing in
+                personalized travel experiences and exceptional customer service.
+            </p>
+            <p>
+                Our mission is simple: to connect travelers with their perfect destinations and create memories that last a lifetime.
+                Whether you're looking for a relaxing beach getaway, an adventurous hiking trip, or a cultural city exploration,
+                our team has the expertise and connections to make your travel dreams a reality.
+            </p>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <h3 class="text-center mb-4">Why Choose Wanderlust Travel?</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-globe-americas fa-3x text-primary mb-3"></i>
+                            <h4>Diverse Destinations</h4>
+                            <p>
+                                We offer a carefully curated selection of destinations across all continents,
+                                ensuring there's something for every type of traveler.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-hand-holding-usd fa-3x text-primary mb-3"></i>
+                            <h4>Best Price Guarantee</h4>
+                            <p>
+                                We work directly with properties and service providers to secure the best rates for our clients,
+                                without compromising on quality.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                            <h4>24/7 Support</h4>
+                            <p>
+                                Our dedicated customer service team is available around the clock to assist with any questions or concerns
+                                before, during, or after your trip.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <h3 class="text-center mb-4">Meet Our Team</h3>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <img src="/images/team-1.jpg" class="card-img-top" alt="Team Member">
+                    <div class="card-body">
+                        <h5 class="card-title">Jane Doe</h5>
+                        <p class="card-text text-muted">Founder & CEO</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <img src="/images/team-2.jpg" class="card-img-top" alt="Team Member">
+                    <div class="card-body">
+                        <h5 class="card-title">John Smith</h5>
+                        <p class="card-text text-muted">Head of Operations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <img src="/images/team-3.jpg" class="card-img-top" alt="Team Member">
+                    <div class="card-body">
+                        <h5 class="card-title">Emily Johnson</h5>
+                        <p class="card-text text-muted">Customer Experience Manager</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <img src="/images/team-4.jpg" class="card-img-top" alt="Team Member">
+                    <div class="card-body">
+                        <h5 class="card-title">Michael Brown</h5>
+                        <p class="card-text text-muted">Destination Specialist</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mb-5">
+        <h3 class="mb-4">Our Values</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title text-primary">Authenticity</h4>
+                        <p class="card-text">
+                            We believe in creating genuine travel experiences that connect travelers with the heart and soul of their destinations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title text-primary">Sustainability</h4>
+                        <p class="card-text">
+                            We're committed to promoting responsible tourism that respects local communities and environments.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title text-primary">Excellence</h4>
+                        <p class="card-text">
+                            We strive for excellence in every aspect of our service, from the destinations we curate to the customer support we provide.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mb-5">
+        <a asp-controller="Contact" asp-action="Index" class="btn btn-primary btn-lg">Get in Touch</a>
+    </div>
+</div>
